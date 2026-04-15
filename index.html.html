@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aaron Scott · Teaching Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Reset ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: #F7F3EE;
+      font-family: 'DM Sans', sans-serif;
+      color: #1C2B3A;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999; opacity: 0.35;
+    }
+
+    /* ─── Progress bar ─── */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 3px;
+      background: linear-gradient(90deg, #B8892A, #D4A843);
+      z-index: 1000; transition: width 0.1s linear;
+    }
+
+    /* ─── Header ─── */
+    header {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(247,243,238,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(184,137,42,0.2);
+      box-shadow: 0 1px 8px rgba(28,43,58,0.06);
+    }
+    .header-inner {
+      max-width: 72rem; margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 2rem;
+    }
+    .wordmark-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-weight: 600; color: #1C2B3A; line-height: 1;
+    }
+    .wordmark-sub {
+      font-size: 0.65rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: #B8892A; margin-top: 0.2rem;
+    }
+    nav { display: flex; align-items: center; gap: 2rem; }
+    .nav-tab {
+      position: relative;
+      font-size: 0.8rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: #3D5166; padding: 0.5rem 0;
+      cursor: pointer; transition: color 0.3s ease;
+    }
+    .nav-tab::after {
+      content: ''; position: absolute;
+      bottom: -2px; left: 0; right: 0; height: 2px;
+      background: #B8892A; transform: scaleX(0);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    .nav-tab:hover { color: #1C2B3A; }
+    .nav-tab:hover::after, .nav-tab.active::after { transform: scaleX(1); }
+    .nav-tab.active { color: #B8892A; font-weight: 600; }
+
+    /* ─── Main ─── */
+    main { max-width: 72rem; margin: 0 auto; padding: 3.5rem 1.5rem; }
+
+    /* ─── Panels ─── */
+    .panel { display: none; animation: fadeUp 0.55s ease forwards; }
+    .panel.active { display: block; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── Rule ─── */
+    .rule { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+    .rule::before, .rule::after { content: ''; flex: 1; height: 1px; background: #B8892A; opacity: 0.5; }
+    .rule-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; color: #B8892A;
+      font-size: 0.875rem; letter-spacing: 0.1em;
+    }
+
+    /* ─── Grid ─── */
+    .grid-2col   { display: grid; grid-template-columns: 2fr 3fr; gap: 3rem; }
+    .grid-3col   { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+    .grid-5-2    { display: grid; grid-template-columns: 3fr 2fr; }
+    .grid-4-1    { display: grid; grid-template-columns: 4fr 1fr; }
+    @media (max-width: 768px) {
+      .grid-2col, .grid-3col, .grid-5-2, .grid-4-1 { grid-template-columns: 1fr; }
+    }
+
+    /* ─── Badge ─── */
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(92,122,107,0.1); color: #5C7A6B;
+      border: 1px solid rgba(92,122,107,0.3);
+      border-radius: 100px; padding: 0.25rem 0.85rem;
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.04em;
+    }
+    .badges-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+    /* ─── Hero ─── */
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 7vw, 4.5rem);
+      font-weight: 300; color: #1C2B3A;
+      line-height: 1.05; margin-bottom: 0.75rem;
+    }
+    .hero-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 1.5rem;
+      color: #3D5166; margin-bottom: 1.5rem;
+    }
+
+    /* ─── Why I Teach ─── */
+    .why-head {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.875rem; font-weight: 600;
+      color: #1C2B3A; margin-bottom: 0.25rem;
+    }
+    .gold-rule { width: 2.5rem; height: 2px; background: #B8892A; margin-bottom: 1.25rem; }
+    .sage-rule { width: 2rem; height: 2px; background: #5C7A6B; margin-bottom: 1rem; }
+    .why-p {
+      color: #3D5166; line-height: 1.75;
+      margin-bottom: 1rem; font-weight: 300;
+    }
+    .pullquote-left {
+      margin-top: 1.5rem; padding: 1rem;
+      background: #EDE6DA; border-left: 2px solid #B8892A;
+    }
+    .pullquote-left-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; color: #1C2B3A;
+      font-size: 1.125rem; line-height: 1.5;
+    }
+
+    /* ─── Game shell ─── */
+    .game-label-row {
+      display: flex; align-items: center;
+      justify-content: space-between; margin-bottom: 0.75rem;
+    }
+    .game-label-text {
+      font-size: 0.7rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: #B8892A; font-weight: 600;
+    }
+    .game-label-right {
+      font-size: 0.6rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(61,81,102,0.4);
+    }
+    .game-shell {
+      background: white;
+      border: 1px solid rgba(184,137,42,0.2);
+      border-top: 4px solid #B8892A;
+      border-radius: 3px; overflow: hidden;
+      box-shadow: 0 8px 32px rgba(28,43,58,0.08);
+    }
+    .game-topbar {
+      background: #1C2B3A; padding: 0.55rem 1.1rem;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .game-topbar-title {
+      font-size: 0.65rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: rgba(184,137,42,0.9); font-weight: 600;
+    }
+    .game-topbar-line { flex: 1; height: 1px; background: rgba(184,137,42,0.15); }
+    .game-topbar-tag { font-size: 0.6rem; color: rgba(255,255,255,0.3); }
+    .game-caption {
+      font-size: 0.75rem; color: rgba(61,81,102,0.4);
+      margin-top: 0.5rem; text-align: right;
+    }
+
+    /* ─── Game inner CSS ─── */
+    .g-opt {
+      background:#fff;border:1px solid #e8e8e8;border-radius:9px;
+      padding:10px 13px;margin:6px 0;cursor:pointer;font-size:14px;
+      color:#333;display:flex;align-items:center;gap:10px;
+      width:100%;text-align:left;transition:background .12s,border-color .12s,color .12s;
+    }
+    .g-opt:hover:not([disabled]){background:#EDE6DA;border-color:#B8892A;color:#1C2B3A;}
+    .g-opt.ok{background:#ecfdf5;border-color:#22c55e;color:#15803d;}
+    .g-opt.no{background:#fef2f2;border-color:#ef4444;color:#b91c1c;}
+    .g-opt[disabled]{cursor:default;}
+    .g-oL{width:27px;height:27px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;color:#666;}
+    .g-opt.ok .g-oL{background:#22c55e;color:#fff;}
+    .g-opt.no .g-oL{background:#ef4444;color:#fff;}
+    .nd-node{position:absolute;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;transform:translate(-50%,-50%);z-index:3;border:3px solid rgba(255,255,255,.92);transition:transform .3s,box-shadow .3s;}
+    .nd-node.unv{opacity:.65;}
+    .nd-node.cur{transform:translate(-50%,-50%) scale(1.18);box-shadow:0 0 0 5px rgba(85,37,131,.22),0 0 0 9px rgba(85,37,131,.08);}
+    .nd-node.done{opacity:.5;}
+    .ndlbl{position:absolute;font-size:9px;font-weight:700;color:#222;white-space:nowrap;left:50%;top:calc(100% + 5px);transform:translateX(-50%);background:rgba(255,255,255,.88);padding:1px 5px;border-radius:4px;}
+    @keyframes cpop{0%{transform:translate(-50%,-115%) scale(1);}50%{transform:translate(-50%,-142%) scale(1.3);}100%{transform:translate(-50%,-115%) scale(1);}}
+    @keyframes cidle{0%,100%{transform:translate(-50%,-115%);}50%{transform:translate(-50%,-126%);}}
+    .char-pop{animation:cpop .45s ease both;}
+    .char-idle{animation:cidle 2.2s ease-in-out infinite;}
+
+    /* ─── Section headings ─── */
+    .section-h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 3.75rem);
+      font-weight: 300; color: #1C2B3A;
+      line-height: 1.2; margin-bottom: 0.75rem;
+    }
+    .section-h1 em { font-style: italic; color: #B8892A; }
+    .section-sub {
+      font-weight: 300; color: #3D5166; max-width: 42rem;
+    }
+
+    /* ─── CSTP Cards ─── */
+    .cstp-card {
+      background: white;
+      border: 1px solid rgba(184,137,42,0.2);
+      border-top: 4px solid #B8892A;
+      border-radius: 2px; padding: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .cstp-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(28,43,58,0.1); }
+    .cstp-card-sage { border-top-color: #5C7A6B; }
+    .card-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem; font-weight: 300;
+      color: rgba(184,137,42,0.25); line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .card-number-sage { color: rgba(92,122,107,0.25); }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 600;
+      color: #1C2B3A; margin-bottom: 0.25rem;
+    }
+    .card-p {
+      color: #3D5166; font-size: 0.875rem;
+      line-height: 1.75; font-weight: 300;
+    }
+
+    /* ─── Pull quote ─── */
+    .pull-quote-block {
+      background: #1C2B3A; border-radius: 2px; overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+    .pull-quote-inner { display: grid; grid-template-columns: 4fr 1fr; }
+    @media (max-width: 768px) { .pull-quote-inner { grid-template-columns: 1fr; } }
+    .pull-quote-text-col {
+      padding: 2rem; display: flex; align-items: center;
+    }
+    .pull-quote-big {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; color: white;
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      line-height: 1.35; margin-bottom: 1rem;
+    }
+    .pull-quote-attr { font-size: 0.875rem; font-weight: 500; color: #B8892A; }
+    .pull-quote-accent {
+      background: rgba(184,137,42,0.12);
+      border-left: 1px solid rgba(184,137,42,0.2);
+      display: flex; align-items: center; justify-content: center; padding: 1.5rem;
+    }
+    .pull-quote-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 6rem; font-weight: 300; line-height: 1;
+      color: rgba(184,137,42,0.3);
+    }
+
+    /* ─── Carousel ─── */
+    .carousel-overflow { overflow: hidden; border-radius: 2px; }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
+    }
+    .carousel-slide { min-width: 100%; }
+    .carousel-btn {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: #1C2B3A; color: white;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.25s, transform 0.2s;
+      border: none; flex-shrink: 0;
+    }
+    .carousel-btn:hover { background: #B8892A; transform: scale(1.07); }
+    .carousel-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(28,43,58,0.2); cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .carousel-dot.active { background: #B8892A; transform: scale(1.3); }
+    .dots-row {
+      display: flex; justify-content: center;
+      gap: 0.5rem; margin-top: 1.5rem;
+    }
+    .inq-nav-row {
+      display: flex; align-items: center;
+      justify-content: space-between; margin-bottom: 1.25rem;
+    }
+    .inq-counter { display: flex; align-items: center; gap: 0.75rem; }
+    .inq-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.875rem; font-weight: 300; color: #B8892A;
+    }
+    .inq-label-text {
+      font-size: 0.75rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(61,81,102,0.5);
+    }
+    .btn-row { display: flex; gap: 0.75rem; }
+
+    /* ─── Slide cards ─── */
+    .slide-card {
+      background: white;
+      border: 1px solid rgba(184,137,42,0.15);
+      border-radius: 2px; overflow: hidden;
+    }
+    .slide-header {
+      padding: 1.75rem 2rem 1.25rem;
+      border-bottom: 1px solid rgba(184,137,42,0.1);
+    }
+    .slide-label {
+      font-size: 0.65rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: #B8892A;
+      font-weight: 600; margin-bottom: 0.5rem;
+    }
+    .slide-q {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+      font-weight: 600; color: #1C2B3A; line-height: 1.3;
+    }
+    .slide-body-left {
+      padding: 2rem;
+      border-right: 1px solid rgba(184,137,42,0.1);
+    }
+    .slide-body-right {
+      padding: 2rem;
+      display: flex; flex-direction: column; gap: 1.25rem;
+    }
+    @media (max-width: 768px) {
+      .slide-body-left { border-right: none; border-bottom: 1px solid rgba(184,137,42,0.1); }
+    }
+    .slide-p {
+      color: #3D5166; font-size: 0.875rem;
+      line-height: 1.75; font-weight: 300; margin-bottom: 1.25rem;
+    }
+    .slide-p:last-of-type { margin-bottom: 0; }
+
+    /* ─── Stat boxes ─── */
+    .stat-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-top: 1.5rem; }
+    .stat-box { background: #EDE6DA; border-radius: 2px; padding: 0.75rem; text-align: center; }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 300; color: #B8892A;
+    }
+    .stat-lbl { font-size: 10px; color: rgba(61,81,102,0.6); margin-top: 0.25rem; }
+
+    /* ─── Before/after ─── */
+    .ba-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 1.5rem; }
+    .ba-light { background: #EDE6DA; border-radius: 2px; padding: 1rem; }
+    .ba-dark { background: #1C2B3A; border-radius: 2px; padding: 1rem; }
+    .ba-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; margin-bottom: 0.5rem; }
+    .ba-lbl-light { color: rgba(61,81,102,0.4); }
+    .ba-lbl-dark { color: rgba(184,137,42,0.6); }
+    .ba-val { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 300; }
+    .ba-val-light { color: #3D5166; }
+    .ba-val-dark { color: white; }
+    .ba-note { font-size: 10px; margin-top: 0.25rem; }
+    .ba-note-light { color: rgba(61,81,102,0.5); }
+    .ba-note-dark { color: rgba(255,255,255,0.4); }
+
+    /* ─── Slide quote ─── */
+    .slide-quote-dark {
+      background: #1C2B3A; border-radius: 2px; padding: 1rem; margin-top: 1.5rem;
+    }
+    .slide-quote-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; color: white;
+      font-size: 0.875rem; line-height: 1.6; margin-bottom: 0.25rem;
+    }
+    .slide-quote-attr { font-size: 10px; color: rgba(184,137,42,0.6); }
+
+    /* ─── Placeholder boxes ─── */
+    .ph-label {
+      font-size: 0.6rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: rgba(61,81,102,0.4);
+      font-weight: 600; margin-bottom: 0.5rem;
+    }
+    .work-placeholder {
+      background: linear-gradient(135deg, #EDE6DA, #ddd6ca);
+      border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(184,137,42,0.2);
+    }
+    .ph-inner { text-align: center; padding: 0 0.75rem; }
+    .ph-icon { color: rgba(184,137,42,0.25); margin: 0 auto 0.25rem; display: block; }
+    .ph-text { font-size: 10px; color: rgba(61,81,102,0.4); }
+
+    /* ─── Footer ─── */
+    footer {
+      border-top: 1px solid rgba(184,137,42,0.2);
+      margin-top: 5rem; padding: 2.5rem 0;
+      background: #1C2B3A; color: white;
+    }
+    .footer-inner {
+      max-width: 72rem; margin: 0 auto; padding: 0 1.5rem;
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .footer-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem; font-weight: 300;
+    }
+    .footer-sub {
+      font-size: 0.75rem; color: #8FA8BC;
+      letter-spacing: 0.12em; text-transform: uppercase; margin-top: 0.25rem;
+    }
+    .footer-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; color: rgba(184,137,42,0.6); font-size: 0.875rem;
+    }
+    /* ─── Headshot ─── */
+    .headshot-wrap {
+      position: relative;
+      border-radius: 2px;
+      overflow: hidden;
+      border: 1px solid rgba(184,137,42,0.2);
+      box-shadow: 0 8px 32px rgba(28,43,58,0.1);
+    }
+    .headshot-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+    }
+    .headshot-wrap.is-placeholder {
+      background: linear-gradient(160deg, #EDE6DA 0%, #ddd6ca 100%);
+      display: flex; align-items: center; justify-content: center;
+      min-height: 280px;
+    }
+    .headshot-placeholder-inner { text-align: center; padding: 1.5rem; }
+    .headshot-label {
+      font-size: 0.65rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: rgba(184,137,42,0.6);
+      font-weight: 600; margin-top: 0.75rem;
+    }
+
+    /* ─── Inquiry images ─── */
+    .inquiry-img-wrap {
+      width: 100%;
+      border-radius: 2px;
+      overflow: hidden;
+      border: 1px solid rgba(184,137,42,0.2);
+      background: linear-gradient(135deg, #EDE6DA, #ddd6ca);
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .inquiry-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+      display: block;
+      min-height: 180px;
+      max-height: 340px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="progress-bar" style="width:0%"></div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div>
+        <p class="wordmark-name">Aaron Scott</p>
+        <p class="wordmark-sub">Induction Journey · 2025–27</p>
+      </div>
+      <nav>
+        <span class="nav-tab active" onclick="showPanel('intro')">I. Introduction</span>
+        <span class="nav-tab" onclick="showPanel('cstp')">II. CSTP Growth</span>
+        <span class="nav-tab" onclick="showPanel('impact')">III. My Four Inquiries</span>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ═══ PANEL 1 · INTRODUCTION ═══ -->
+    <section id="panel-intro" class="panel active">
+
+      <div style="margin-bottom:3.5rem;" class="reveal">
+        <div class="rule"><span class="rule-label">Introduction</span></div>
+      </div>
+
+      <!-- Three-col: headshot | philosophy | game -->
+      <div style="display:grid;grid-template-columns:1fr 1.6fr 2.2fr;gap:2.5rem;align-items:start;" class="reveal intro-grid">
+
+        <!-- Headshot col -->
+        <div>
+          <div class="headshot-wrap is-placeholder" id="headshot-container">
+            <img src="headshot2.png" alt="Aaron Scott" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;" onerror="this.parentElement.classList.add('is-placeholder');this.style.display='none';document.getElementById('headshot-fallback').style.display='block';">
+            <div id="headshot-fallback" style="display:none;" class="headshot-placeholder-inner">
+              <svg width="48" height="48" fill="none" stroke="rgba(184,137,42,0.4)" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0"/></svg>
+              <p class="headshot-label">headshot2.png</p>
+            </div>
+          </div>
+          <div style="margin-top:1rem;">
+            <h1 class="hero-name" style="font-size:clamp(1.6rem,3vw,2.4rem);">Aaron Scott</h1>
+            <p class="hero-sub" style="font-size:1rem;margin-bottom:0.75rem;">English Language Arts &nbsp;·&nbsp; 9th &amp; 12th Grade</p>
+            <div class="badges-row">
+              <span class="badge">✦ Mission Vista Academy</span>
+              <span class="badge">✦ Induction Cohort 2025–27</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Philosophy col -->
+        <div>
+          <h2 class="why-head">Why I Teach</h2>
+          <div class="gold-rule"></div>
+          <p class="why-p">
+            I teach because I love to learn, and I've discovered that teaching is the most powerful form of learning there is. Every time I step into the classroom, I'm not just sharing what I know; I'm wrestling with ideas alongside my students, finding new angles on texts I've read a hundred times, and thinking more carefully about language than I ever could alone.
+          </p>
+          <p class="why-p" style="margin-bottom:0;">
+            My 9th graders remind me what it feels like to encounter a story for the very first time. My 12th graders push me to defend every claim with evidence. Together, we build something I couldn't build without them: a classroom where curiosity is the point, and where the question matters more than the answer.
+          </p>
+          <div class="pullquote-left">
+            <p class="pullquote-left-text">"The best way to truly understand something is to have to teach it, so I never stop being a student."</p>
+          </div>
+        </div>
+
+        <!-- Game col -->
+        <div class="reveal" style="transition-delay:0.2s">
+          <div class="game-label-row">
+            <p class="game-label-text">Interactive Introduction</p>
+            <span class="game-label-right">4 stops · explore &amp; quiz</span>
+          </div>
+          <div class="game-shell">
+            <div class="game-topbar">
+              <span class="game-topbar-title">Mr. Scott's World</span>
+              <span class="game-topbar-line"></span>
+              <span class="game-topbar-tag">Interactive</span>
+            </div>
+            <div id="g" style="max-width:100%;padding:0.75rem 0.75rem 1.5rem;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+              <div id="ss" style="text-align:center;padding:2.5rem 1rem 2rem;">
+                <span style="font-size:52px;display:block;margin-bottom:0.8rem;line-height:1;">🗺️</span>
+                <div style="display:inline-block;background:#1C2B3A;color:#B8892A;font-size:10px;font-weight:700;padding:4px 13px;border-radius:20px;margin-bottom:0.9rem;letter-spacing:.09em;text-transform:uppercase;">Interactive Intro</div>
+                <h1 style="font-size:24px;font-weight:700;color:#1a1a1a;margin-bottom:0.4rem;">Explore Mr. Scott's World</h1>
+                <p style="font-size:14px;color:#666;line-height:1.7;margin-bottom:2rem;">Navigate the map, collect facts at each location,<br>then prove what you learned. 4 stops. Let's go!</p>
+                <button onclick="startGame()" style="background:#1C2B3A;color:#B8892A;border:none;padding:12px 36px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;" onmouseover="this.style.background='#B8892A';this.style.color='#fff'" onmouseout="this.style.background='#1C2B3A';this.style.color='#B8892A'">Begin the adventure</button>
+              </div>
+              <div id="ms" style="display:none;">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:0 .2rem;margin-bottom:.55rem;">
+                  <span style="font-size:13px;font-weight:700;color:#444;">🧭 Mr. Scott's World</span>
+                  <div style="display:flex;gap:4px;">
+                    <span id="st0" style="font-size:19px;opacity:.2;transition:opacity .4s,transform .35s;">⭐</span>
+                    <span id="st1" style="font-size:19px;opacity:.2;transition:opacity .4s,transform .35s;">⭐</span>
+                    <span id="st2" style="font-size:19px;opacity:.2;transition:opacity .4s,transform .35s;">⭐</span>
+                    <span id="st3" style="font-size:19px;opacity:.2;transition:opacity .4s,transform .35s;">⭐</span>
+                  </div>
+                </div>
+                <div id="mw" style="position:relative;width:100%;height:265px;background:#c8e6c9;border-radius:16px;border:.5px solid #a5d6a7;overflow:hidden;">
+                  <div style="position:absolute;width:165px;height:115px;background:#81c784;left:-35px;top:-25px;opacity:.6;border-radius:50%;"></div>
+                  <div style="position:absolute;width:110px;height:80px;background:#80cbc4;left:155px;top:-18px;opacity:.38;border-radius:50%;"></div>
+                  <div style="position:absolute;width:95px;height:65px;background:#81c784;right:-15px;bottom:25px;opacity:.5;border-radius:50%;"></div>
+                  <div style="position:absolute;width:80px;height:55px;background:#80deea;right:120px;top:5px;opacity:.32;border-radius:50%;"></div>
+                  <div style="position:absolute;width:70px;height:48px;background:#fff9c4;left:200px;bottom:10px;opacity:.55;border-radius:50%;"></div>
+                  <div style="position:absolute;width:55px;height:38px;background:#80cbc4;left:315px;bottom:5px;opacity:.35;border-radius:50%;"></div>
+                  <div style="position:absolute;width:48px;height:35px;background:#a5d6a7;left:450px;top:15px;opacity:.4;border-radius:50%;"></div>
+                  <svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;" viewBox="0 0 600 280" preserveAspectRatio="none">
+                    <path d="M 55 232 C 55 155 100 155 100 78 C 100 155 183 208 268 208 C 353 208 353 72 418 72 C 485 72 555 142 555 212" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="14" stroke-linecap="round"/>
+                    <path d="M 55 232 C 55 155 100 155 100 78 C 100 155 183 208 268 208 C 353 208 353 72 418 72 C 485 72 555 142 555 212" fill="none" stroke="rgba(255,255,255,.88)" stroke-width="3" stroke-dasharray="10 7" stroke-linecap="round"/>
+                    <circle cx="55" cy="232" r="9" fill="white" opacity=".85"/>
+                    <text x="55" y="236" text-anchor="middle" font-size="9" fill="#B8892A" font-weight="700">GO</text>
+                  </svg>
+                  <div id="char" style="position:absolute;font-size:30px;z-index:10;transform:translate(-50%,-115%);transition:left .8s cubic-bezier(.4,0,.2,1),top .8s cubic-bezier(.4,0,.2,1);">🧑‍🏫</div>
+                  <div id="mst" style="position:absolute;bottom:9px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.92);border-radius:20px;padding:4px 13px;font-size:12px;font-weight:600;color:#444;white-space:nowrap;z-index:5;">Get ready to explore!</div>
+                </div>
+                <div id="panel" style="margin-top:.8rem;background:#fff;border:.5px solid #e0e0e0;border-radius:14px;overflow:hidden;display:none;">
+                  <div style="display:flex;align-items:center;gap:12px;padding:.9rem 1.2rem .8rem;border-bottom:.5px solid #f0f0f0;">
+                    <div id="ic" style="width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;"></div>
+                    <div><div id="nm" style="font-size:16px;font-weight:700;color:#1a1a1a;"></div><div id="sb" style="font-size:12px;color:#888;margin-top:1px;"></div></div>
+                  </div>
+                  <div id="fact-view" style="padding:.9rem 1.2rem 1.2rem;">
+                    <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin-bottom:5px;">Quick fact</div>
+                    <div id="ft" style="font-size:15px;color:#222;line-height:1.75;margin-bottom:1.1rem;"></div>
+                    <button onclick="showQuiz()" style="width:100%;background:#1C2B3A;color:#B8892A;border:none;padding:12px;border-radius:9px;font-size:15px;font-weight:700;cursor:pointer;" onmouseover="this.style.background='#B8892A';this.style.color='#fff'" onmouseout="this.style.background='#1C2B3A';this.style.color='#B8892A'">Quiz me on this →</button>
+                  </div>
+                  <div id="quiz-view" style="padding:.9rem 1.2rem 1.2rem;display:none;">
+                    <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin-bottom:5px;">Test your knowledge</div>
+                    <div id="qq" style="font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:11px;line-height:1.4;"></div>
+                    <div id="qo"></div>
+                    <div id="fb" style="font-size:13px;color:#555;font-style:italic;margin-top:9px;min-height:19px;line-height:1.55;"></div>
+                    <button id="cb" onclick="next()" style="margin-top:.9rem;width:100%;background:#1C2B3A;color:#B8892A;border:none;padding:12px;border-radius:9px;font-size:15px;font-weight:700;cursor:pointer;display:none;" onmouseover="this.style.background='#B8892A';this.style.color='#fff'" onmouseout="this.style.background='#1C2B3A';this.style.color='#B8892A'"></button>
+                  </div>
+                </div>
+              </div>
+              <div id="rs" style="display:none;text-align:center;padding:3rem 1rem 2rem;">
+                <span style="font-size:58px;display:block;margin-bottom:.85rem;line-height:1;">🏆</span>
+                <div id="rsc" style="font-size:44px;font-weight:800;color:#1C2B3A;line-height:1;"></div>
+                <div style="font-size:13px;color:#aaa;margin-bottom:1rem;">out of 4</div>
+                <div id="rh" style="font-size:22px;font-weight:700;color:#1a1a1a;margin-bottom:.4rem;"></div>
+                <div id="rp" style="font-size:15px;color:#555;line-height:1.7;margin-bottom:1.8rem;"></div>
+                <div style="background:#F7F3EE;border-left:3px solid #B8892A;border-radius:0 10px 10px 0;padding:13px 17px;font-size:14px;color:#444;text-align:left;line-height:1.75;margin:0 auto 2rem;max-width:480px;"><strong style="color:#1C2B3A;font-weight:700;">The journey continues.</strong> Mr. Scott brings this same energy, curiosity, culture, and a whole lot of fun, to his ELA students every single day. Welcome to his classroom.</div>
+                <button onclick="replay()" style="background:transparent;border:2px solid #1C2B3A;color:#1C2B3A;padding:11px 30px;border-radius:9px;font-size:15px;font-weight:700;cursor:pointer;" onmouseover="this.style.background='#1C2B3A';this.style.color='#B8892A'" onmouseout="this.style.background='transparent';this.style.color='#1C2B3A'">Explore again</button>
+              </div>
+            </div>
+          </div>
+          <p class="game-caption">Navigate 4 stops · collect facts · earn stars</p>
+        </div>
+
+      </div><!-- /intro-grid -->
+
+      <style>
+        @media (max-width: 900px) {
+          .intro-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 600px) {
+          .intro-grid { grid-template-columns: 1fr !important; }
+        }
+      </style>
+
+
+
+    </section>
+
+
+    <!-- ═══ PANEL 2 · CSTP GROWTH ═══ -->
+    <section id="panel-cstp" class="panel">
+
+      <div style="margin-bottom:3.5rem;" class="reveal">
+        <div class="rule"><span class="rule-label">CSTP Growth &amp; Development</span></div>
+        <h1 class="section-h1">My Professional<br><em>Growth Journey</em></h1>
+        <p class="section-sub">A reflective comparison of my Initial and Final CSTP Self-Assessment, tracing the arc of growth across a transformative year of teaching.</p>
+      </div>
+
+      <div class="grid-3col" style="margin-bottom:2.5rem;">
+
+        <div class="cstp-card reveal" style="transition-delay:0.05s">
+          <div class="card-number">01</div>
+          <h3 class="card-title">Where I Feel Strong</h3>
+          <div class="gold-rule"></div>
+          <p style="font-size:0.6rem;letter-spacing:0.13em;text-transform:uppercase;color:rgba(184,137,42,0.7);font-weight:600;margin-bottom:0.75rem;">CSTP 6 · Developing as a Professional Educator</p>
+          <p class="card-p">Professional Growth is where I feel the most solid, and honestly it makes sense. I have always been someone who reflects, asks hard questions, and comes back the next day ready to try something different. On top of that, creating a classroom where every student actually feels seen has been something I have been intentional about from day one. The culturally responsive piece is not a strategy I layer on top of my teaching. It is just how I teach. Most of my practice is sitting somewhere between Applying and Integrating, and I feel good about that foundation.</p>
+        </div>
+
+        <div class="cstp-card reveal" style="transition-delay:0.15s">
+          <div class="card-number">02</div>
+          <h3 class="card-title">Where I Want to Grow</h3>
+          <div class="gold-rule"></div>
+          <p style="font-size:0.6rem;letter-spacing:0.13em;text-transform:uppercase;color:rgba(184,137,42,0.7);font-weight:600;margin-bottom:0.75rem;">CSTP 5 · Assessing Students for Learning</p>
+          <p class="card-p">Assessment is the big one. I am getting better at seeing what students can do, but I want to actually use that information to change what I do next, to let students into that process too, and to tell families more than just a grade. I also want to get better at making content genuinely accessible, not just rigorous on paper. And I want to stop waiting for professional growth to come to me. Seeking out feedback and connecting more with colleagues is something I need to be more deliberate about.</p>
+        </div>
+
+        <div class="cstp-card cstp-card-sage reveal" style="transition-delay:0.25s">
+          <div class="card-number card-number-sage">03</div>
+          <h3 class="card-title">What I Am Most Proud Of</h3>
+          <div class="sage-rule"></div>
+          <p style="font-size:0.6rem;letter-spacing:0.13em;text-transform:uppercase;color:rgba(92,122,107,0.7);font-weight:600;margin-bottom:0.75rem;">CSTP 4 · Planning Instruction and Designing Learning Experiences</p>
+          <p class="card-p">The shift in how I plan instruction is the thing I feel most in my bones. I went from thinking broadly about what students need to actually designing around who they are, their backgrounds, their stories, their strengths. I am proud that my equity work has not been surface level. I have sat with uncomfortable things and let them actually change me. But more than any single thing, I am proud that I kept showing up. Not perfectly. Just consistently. That habit of returning to the work and asking how I can do better is something I built this year and I am not letting it go.</p>
+        </div>
+
+      </div>
+
+      <div class="reveal">
+        <div class="pull-quote-block">
+          <div class="pull-quote-inner">
+            <div class="pull-quote-text-col">
+              <div>
+                <p class="pull-quote-big">"Not perfection, but persistence. Returning to the student, returning to the question of how I can do better."</p>
+                <p class="pull-quote-attr">Aaron Scott &nbsp;&middot;&nbsp; ELA &nbsp;&middot;&nbsp; Mission Vista Academy</p>
+              </div>
+            </div>
+            <div class="pull-quote-accent">
+              <span class="pull-quote-mark">"</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ═══ PANEL 3 · MY FOUR INQUIRIES ═══ -->
+    <section id="panel-impact" class="panel">
+
+      <div style="margin-bottom:2.5rem;" class="reveal">
+        <div class="rule"><span class="rule-label">Impact on Student Success</span></div>
+        <h1 class="section-h1">My Four<br><em>Inquiries</em></h1>
+        <p class="section-sub">Each inquiry started with a question I was genuinely sitting with. Here is what I tried, what I learned, and what it meant for my students.</p>
+      </div>
+
+      <div style="position:relative;" class="reveal">
+
+        <div class="inq-nav-row">
+          <div class="inq-counter">
+            <span class="inq-num" id="inq-num">01</span>
+            <span class="inq-label-text" id="inq-label">Teacher Wellness</span>
+          </div>
+          <div class="btn-row">
+            <button class="carousel-btn" onclick="moveCarousel(-1)" aria-label="Previous">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
+            </button>
+            <button class="carousel-btn" onclick="moveCarousel(1)" aria-label="Next">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="carousel-overflow">
+          <div class="carousel-track" id="carousel-track">
+
+            <!-- SLIDE 1 · TEACHER WELLNESS -->
+            <div class="carousel-slide">
+              <div class="slide-card">
+                <div class="slide-header">
+                  <p class="slide-label">Inquiry 1 · Sept – Oct 2025 · CSTP 6A</p>
+                  <h3 class="slide-q">Can taking care of myself make me a better teacher?</h3>
+                </div>
+                <div class="grid-5-2">
+                  <div class="slide-body-left">
+                    <p class="slide-p">I started this inquiry because I was overwhelmed. The planning, the grading, the emails were all piling up outside of class time and I was noticing it bleed into my teaching. So I committed to a daily 10-minute meditation using the Calm app and tracked my anxiety morning and night for the whole month of September.</p>
+                    <p class="slide-p">By the end of the month my anxiety scores had dropped pretty consistently from the 6s and 7s I was logging in early September down to the 2s and 3s. That headspace made a real difference. I started using more Checks for Understanding during lessons instead of just clicking through slides. I found time to create modified assignments for SPED students that I honestly would have skipped when I was in survival mode. And when a stressful email hit right before class one day, I was actually able to breathe through it and not take it out on my students.</p>
+                    <p class="slide-p" style="margin-bottom:0;">The big takeaway: a regulated teacher is a better teacher. When I was less anxious, my students got more of me, and a more intentional version of me at that.</p>
+                    <div class="stat-row">
+                      <div class="stat-box"><p class="stat-num">28</p><p class="stat-lbl">of 30 days meditated</p></div>
+                      <div class="stat-box"><p class="stat-num">7→2</p><p class="stat-lbl">anxiety score drop</p></div>
+                      <div class="stat-box"><p class="stat-num">More</p><p class="stat-lbl">CFUs per lesson</p></div>
+                    </div>
+                  </div>
+                  <div class="slide-body-right" style="justify-content:flex-start;">
+                    <p class="ph-label">Calm App Calendar · September 2025</p>
+                    <div class="inquiry-img-wrap">
+                      <img src="inquiry1.png" alt="Calm app meditation calendar for September 2025"
+                           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                      <div style="display:none;height:220px;align-items:center;justify-content:center;text-align:center;padding:1rem;">
+                        <div>
+                          <svg width="28" height="28" fill="none" stroke="rgba(184,137,42,0.3)" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 0.5rem;display:block;"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909"/></svg>
+                          <p class="ph-text">inquiry1.png</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDE 2 · DISTANCE LEARNING -->
+            <div class="carousel-slide">
+              <div class="slide-card">
+                <div class="slide-header">
+                  <p class="slide-label">Inquiry 2 · Oct – Dec 2025 · CSTP 4B</p>
+                  <h3 class="slide-q">How do I actually make distance learning more engaging?</h3>
+                </div>
+                <div class="grid-5-2">
+                  <div class="slide-body-left">
+                    <p class="slide-p">Online, it is easy to just click through slides while students zone out. I knew I was not using the tools available to me and I wanted to change that. I set out to learn and implement four or five new distance learning tools, each with a specific purpose, rather than just trying things randomly.</p>
+                    <p class="slide-p">Not everything worked as planned. Listenwise was paywalled. Gameinar was too clunky. But that trial-and-error process was genuinely useful, because talking with colleagues about what did not work led me straight to what did: waterfall polls in the Zoom chat, Blooket for gamified review, and Zoom Polls for quick pulse checks. I also earned my Google Educator certification at both the Basic and Intermediate levels, which opened up new ways to use Forms and streamline parent communication.</p>
+                    <p class="slide-p" style="margin-bottom:0;">The student impact was real. On the 9th grade Blooket Final Review, 28 students answered 777 questions with 74% accuracy. That is not students clicking through something passively. That is students actually reviewing content and staying in it.</p>
+                    <div class="stat-row">
+                      <div class="stat-box"><p class="stat-num">28</p><p class="stat-lbl">students engaged</p></div>
+                      <div class="stat-box"><p class="stat-num">74%</p><p class="stat-lbl">accuracy on Blooket review</p></div>
+                      <div class="stat-box"><p class="stat-num">2x</p><p class="stat-lbl">Google certifications earned</p></div>
+                    </div>
+                  </div>
+                  <div class="slide-body-right" style="justify-content:flex-start;">
+                    <p class="ph-label">Google Educator Certification · Dec 2025</p>
+                    <div class="inquiry-img-wrap">
+                      <img src="inquiry2.png" alt="Google Educator Basic and Intermediate certifications"
+                           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                      <div style="display:none;height:220px;align-items:center;justify-content:center;text-align:center;padding:1rem;">
+                        <div>
+                          <svg width="28" height="28" fill="none" stroke="rgba(184,137,42,0.3)" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 0.5rem;display:block;"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625z"/></svg>
+                          <p class="ph-text">inquiry2.png</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDE 3 · RUBRICS -->
+            <div class="carousel-slide">
+              <div class="slide-card">
+                <div class="slide-header">
+                  <p class="slide-label">Inquiry 3 · Jan – Mar 2026 · CSTP 5</p>
+                  <h3 class="slide-q">What happens when students actually know what is expected?</h3>
+                </div>
+                <div class="grid-5-2">
+                  <div class="slide-body-left">
+                    <p class="slide-p">Before this inquiry, my grading was pretty subjective. Students turned in work, I gave feedback based on what I was looking for, but that standard lived in my head and nowhere else. Almost everyone got a 10/10 on the American Born Chinese assignment regardless of how strong their response actually was, because without a rubric there was no real way to justify taking points off.</p>
+                    <p class="slide-p">I introduced a C-E-R framework (Claim, Evidence, Reasoning) alongside a visible 5-point rubric for the Outliers assignment. The shift was immediate and concrete. Students wrote more. They pulled specific evidence from the text. They tried to build an actual argument. The grade distribution went from a flat row of 10s to a genuine spread that actually reflected quality and effort.</p>
+                    <p class="slide-p" style="margin-bottom:0;">The line that stuck with me from reflecting on this: expectations moved from being in my head to being on the page. That one shift made grading faster, feedback more honest, and student work more intentional.</p>
+                  </div>
+                  <div class="slide-body-right" style="justify-content:flex-start;gap:0.75rem;">
+                    <div class="ba-light" style="border-radius:2px;">
+                      <p class="ba-lbl ba-lbl-light">Before Rubric</p>
+                      <p class="ba-val ba-val-light" style="font-size:1rem;">Fourteen 10s, one 8</p>
+                      <p class="ba-note ba-note-light">Flat, no meaningful differentiation</p>
+                    </div>
+                    <div class="ba-dark" style="border-radius:2px;">
+                      <p class="ba-lbl ba-lbl-dark">After Rubric</p>
+                      <p class="ba-val ba-val-dark" style="font-size:1rem;">10, 9, 8, 7.5, 7, 0</p>
+                      <p class="ba-note ba-note-dark">Real distribution, real feedback</p>
+                    </div>
+                    <div style="background:var(--parchment,#EDE6DA);border-radius:2px;padding:1rem;">
+                      <p class="ba-lbl ba-lbl-light">Key Insight</p>
+                      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:#1C2B3A;font-size:0.95rem;line-height:1.5;">"Expectations moved from being in my head to being on the page."</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDE 4 · REFLECTION JOURNAL -->
+            <div class="carousel-slide">
+              <div class="slide-card">
+                <div class="slide-header">
+                  <p class="slide-label">Inquiry 4 · Mar – Apr 2026 · CSTP 6A</p>
+                  <h3 class="slide-q">What if I just wrote down what actually happened in class?</h3>
+                </div>
+                <div>
+                  <div class="slide-body-left" style="border-right:none;">
+                    <p class="slide-p">I noticed that my second class of the day always ran smoother than my first. I already knew why, sort of, but I was not capturing it in any organized way. So I started writing Post Class Thoughts within five minutes of each class ending, using speech-to-text to get it out fast before the moment passed.</p>
+                    <p class="slide-p">The pattern that emerged pretty quickly: when I rushed through instructions, students struggled. When I slowed down and explained rather than just reading slides, things clicked. I caught myself stretching the beginning of a lesson and cramming the end, and I started putting a backup activity ready for when I had extra time instead of just letting the pacing fall apart. A Shark Tank group activity that ate up too much time across multiple sessions got redesigned for one focused day.</p>
+                    <p class="slide-p" style="margin-bottom:0;">The student impact is hard to show in a single screenshot, but it is in every class that ran better the second time around because I had actually reflected on the first. This journal is already something I plan to use next year when I am teaching the same lessons again.</p>
+
+                    <!-- Three journal quotes stacked -->
+                    <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:1.5rem;">
+                      <div style="background:#1C2B3A;border-radius:2px;padding:1rem;">
+                        <p style="font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,137,42,0.6);font-weight:600;margin-bottom:0.5rem;">On pacing · Week 8, Semester 2</p>
+                        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:white;font-size:0.9rem;line-height:1.6;">"The whole lesson got away from me. I stretched the beginning and wound up rushing the end. It is better to end early with something prepared. Have a Kahoot locked and loaded rather than stretch out and lose the room."</p>
+                      </div>
+                      <div style="background:#1C2B3A;border-radius:2px;padding:1rem;">
+                        <p style="font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,137,42,0.6);font-weight:600;margin-bottom:0.5rem;">On credibility · Week 9, Semester 2</p>
+                        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:white;font-size:0.9rem;line-height:1.6;">"Slowing down and actually explaining things, rather than just reading the slides, is what gives you credibility. You are teaching them. That goes a long way."</p>
+                      </div>
+                      <div style="background:#1C2B3A;border-radius:2px;padding:1rem;">
+                        <p style="font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,137,42,0.6);font-weight:600;margin-bottom:0.5rem;">On student voice · Week 9, Semester 2</p>
+                        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:white;font-size:0.9rem;line-height:1.6;">"I polled the 12th graders on what they liked and disliked this semester. Hawaiian history and stories about self-made men landed. They also asked to learn real-life skills. Adulting 101. That stuck with me."</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /carousel-track -->
+        </div><!-- /carousel-overflow -->
+
+        <div class="dots-row">
+          <div class="carousel-dot active" onclick="goToSlide(0)"></div>
+          <div class="carousel-dot" onclick="goToSlide(1)"></div>
+          <div class="carousel-dot" onclick="goToSlide(2)"></div>
+          <div class="carousel-dot" onclick="goToSlide(3)"></div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <p class="footer-name">Aaron Scott</p>
+        <p class="footer-sub">ELA · Mission Vista Academy · CTI Induction 2025–27</p>
+        <p class="footer-sub" style="margin-top:0.3rem;opacity:0.7;">Induction Coach · Hilary DeVries</p>
+      </div>
+      <p class="footer-quote">"The art of teaching is the art of assisting discovery."</p>
+    </div>
+  </footer>
+
+  <script>
+    /* Tab switching */
+    function showPanel(id) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('panel-' + id).classList.add('active');
+      const tabs = { intro: 0, cstp: 1, impact: 2 };
+      document.querySelectorAll('.nav-tab')[tabs[id]].classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(triggerReveals, 80);
+    }
+
+    /* Scroll reveal */
+    function triggerReveals() {
+      document.querySelectorAll('.panel.active .reveal').forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), i * 90);
+      });
+    }
+    window.addEventListener('load', () => setTimeout(triggerReveals, 100));
+
+    /* Progress bar */
+    window.addEventListener('scroll', () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      const pct = total > 0 ? (window.scrollY / total) * 100 : 0;
+      document.getElementById('progress-bar').style.width = pct + '%';
+    });
+
+    /* Carousel */
+    let currentSlide = 0;
+    const totalSlides = 4;
+    const inquiryLabels = [
+      ['01','Teacher Wellness'],
+      ['02','Distance Learning Tools'],
+      ['03','Implementing Rubrics'],
+      ['04','Reflection Journal'],
+    ];
+    function moveCarousel(dir) {
+      currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
+      applyCarousel();
+    }
+    function goToSlide(idx) { currentSlide = idx; applyCarousel(); }
+    function applyCarousel() {
+      document.getElementById('carousel-track').style.transform = `translateX(-${currentSlide * 100}%)`;
+      const n = document.getElementById('inq-num');
+      const l = document.getElementById('inq-label');
+      if (n) n.textContent = inquiryLabels[currentSlide][0];
+      if (l) l.textContent = inquiryLabels[currentSlide][1];
+      document.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+    }
+
+    /* Game */
+    var VW=600,VH=280;
+    var STOPS=[
+      {x:100,y:78,e:'📚',bg:'#DBEAFE',nm:'The Classroom',sb:'Where it all begins',
+       fact:"Mr. Scott teaches English Language Arts (ELA) to 9th graders just starting high school and 12th graders about to take on the world. He walks with students through the biggest transitions of their lives, and this is only the beginning.",
+       q:"Which grade levels does Mr. Scott teach?",opts:['7th & 8th grade','10th & 11th grade','9th & 12th grade','All four years'],ans:2,
+       fb:"Both ends of the high school journey: freshmen finding their footing and seniors finding their future!"},
+      {x:268,y:208,e:'🏀',bg:'#FEF3C7',nm:'The Court',sb:'Game recognize game',
+       fact:"Off the clock, Mr. Scott is a die-hard Los Angeles Lakers fan. Purple and gold run through his veins. He brings that same passion for the game into the classroom — if you want to get him talking, just ask him about Showtime.",
+       q:"Which NBA team does Mr. Scott root for?",opts:['Boston Celtics','Golden State Warriors','Chicago Bulls','Los Angeles Lakers'],ans:3,
+       fb:"Laker Nation all day! Purple and gold is a lifestyle, not just a color scheme."},
+      {x:418,y:72,e:'🌍',bg:'#D1FAE5',nm:'Community Hub',sb:'Every voice belongs here',
+       fact:"At the heart of Mr. Scott's teaching is Culturally Responsive Pedagogy (CRP), the belief that every student's culture, identity, and lived experience isn't just welcome in the room. It IS the room.",
+       q:"What teaching approach is central to Mr. Scott's practice?",opts:['Rote memorization','Culturally Responsive Pedagogy','Silent study halls','Test-prep only'],ans:1,
+       fb:"CRP means students see themselves in what they read, write, and discuss. That's the real work."},
+      {x:555,y:212,e:'🎭',bg:'#FCE7F3',nm:'The Stage',sb:'Making learning electric',
+       fact:"Mr. Scott's #1 rule? Learning should be FUN. If students aren't engaged and fired up, something needs to change, and he's always the first one willing to flip the script.",
+       q:"What is Mr. Scott's core teaching philosophy?",opts:['Structure above all else','Silence is golden','No shortcuts ever','Learning should be fun'],ans:3,
+       fb:"Engaged students are learning students. Mr. Scott built his whole classroom identity around this truth!"}
+    ];
+    var HOME={x:55,y:232};
+    var cur=0,score=0,busy=false;
+    function pL(x){return(x/VW*100)+'%';}
+    function pT(y){return(y/VH*100)+'%';}
+    function startGame(){
+      cur=0;score=0;busy=false;
+      document.getElementById('ss').style.display='none';
+      document.getElementById('ms').style.display='block';
+      document.querySelectorAll('.nd-node').forEach(n=>n.remove());
+      var mw=document.getElementById('mw');
+      STOPS.forEach(function(s,i){
+        var d=document.createElement('div');
+        d.className='nd-node unv';d.id='nd'+i;
+        d.style.cssText='left:'+pL(s.x)+';top:'+pT(s.y)+';background:'+s.bg+';';
+        d.innerHTML=s.e+'<span class="ndlbl">'+s.nm+'</span>';
+        mw.appendChild(d);
+      });
+      var ch=document.getElementById('char');
+      ch.className='';ch.style.transition='none';
+      ch.style.left=pL(HOME.x);ch.style.top=pT(HOME.y);
+      document.getElementById('panel').style.display='none';
+      document.getElementById('mst').textContent='Adventure begins...';
+      setTimeout(function(){ch.style.transition='left .8s cubic-bezier(.4,0,.2,1),top .8s cubic-bezier(.4,0,.2,1)';goTo(0);},480);
+    }
+    function goTo(i){
+      if(busy)return;busy=true;cur=i;
+      var s=STOPS[i],ch=document.getElementById('char');
+      ch.className='';ch.style.left=pL(s.x);ch.style.top=pT(s.y);
+      document.getElementById('mst').textContent='📍 Heading to '+s.nm+'...';
+      STOPS.forEach(function(_,j){
+        var nd=document.getElementById('nd'+j);
+        if(nd)nd.className='nd-node '+(j<i?'done':j===i?'cur':'unv');
+      });
+      setTimeout(function(){
+        ch.className='char-pop';
+        document.getElementById('mst').textContent='✅ '+s.nm;
+        setTimeout(function(){ch.className='char-idle';showFact(i);busy=false;},520);
+      },860);
+    }
+    function showFact(i){
+      var s=STOPS[i];
+      document.getElementById('fact-view').style.display='block';
+      document.getElementById('quiz-view').style.display='none';
+      document.getElementById('ic').textContent=s.e;
+      document.getElementById('ic').style.background=s.bg;
+      document.getElementById('nm').textContent=s.nm;
+      document.getElementById('sb').textContent=s.sb;
+      document.getElementById('ft').textContent=s.fact;
+      document.getElementById('panel').style.display='block';
+    }
+    function showQuiz(){
+      var s=STOPS[cur];
+      document.getElementById('fact-view').style.display='none';
+      document.getElementById('quiz-view').style.display='block';
+      document.getElementById('qq').textContent=s.q;
+      document.getElementById('fb').textContent='';
+      var L=['A','B','C','D'];
+      document.getElementById('qo').innerHTML=s.opts.map(function(o,j){
+        return '<button class="g-opt" onclick="pick('+j+')"><span class="g-oL">'+L[j]+'</span>'+o+'</button>';
+      }).join('');
+      var cb=document.getElementById('cb');
+      cb.style.display='none';
+      cb.textContent=cur<3?'Continue exploring →':'🏆 Finish the journey!';
+    }
+    function pick(i){
+      var s=STOPS[cur],opts=document.querySelectorAll('.g-opt');
+      if(opts[0].disabled)return;
+      opts.forEach(o=>o.disabled=true);
+      opts[s.ans].classList.add('ok');
+      if(i===s.ans){
+        score++;
+        var star=document.getElementById('st'+cur);
+        star.style.opacity='1';star.style.transform='scale(1.2)';
+        document.getElementById('fb').textContent='⭐ '+s.fb;
+      } else {
+        opts[i].classList.add('no');
+        document.getElementById('fb').textContent='Not quite, but now you know!';
+      }
+      document.getElementById('cb').style.display='block';
+    }
+    function next(){
+      document.getElementById('panel').style.display='none';
+      if(cur<3){setTimeout(function(){goTo(cur+1);},260);}else{showResults();}
+    }
+    function showResults(){
+      document.getElementById('ms').style.display='none';
+      document.getElementById('rs').style.display='block';
+      document.getElementById('rsc').textContent=score+'/4';
+      var M=[
+        ['Keep exploring!','Every journey starts somewhere. Try again. Mr. Scott loves a comeback story.'],
+        ['A solid start!','You picked up key facts. Mr. Scott would say: growth is always the goal.'],
+        ['Strong navigator!','You know your stuff. Just a couple of stops were tricky.'],
+        ['Expert explorer!','Sharp read on Mr. Scott. Almost perfect. He\'d give you a strong A-.'],
+        ['Perfect journey!','You aced every stop. Mr. Scott would put this one on the bulletin board.']
+      ];
+      document.getElementById('rh').textContent=M[score][0];
+      document.getElementById('rp').textContent=M[score][1];
+    }
+    function replay(){
+      ['st0','st1','st2','st3'].forEach(function(id){
+        var s=document.getElementById(id);
+        s.style.opacity='.2';s.style.transform='';
+      });
+      document.getElementById('rs').style.display='none';
+      document.getElementById('ss').style.display='block';
+    }
+  </script>
+
+</body>
+</html>
